@@ -1,6 +1,9 @@
 import { useEffect, useReducer } from "react";
 import Header from "./Header";
 import Main from "./Main";
+import Loader from "./Loader";
+import Error from "./Error";
+import StartScreen from "./StartScreen";
 
 const initialState = {
   questions: [],
@@ -29,7 +32,10 @@ function reducer(state, action) {
 }
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  // on-the-spot destructuring for state variables
+  const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
+
+  const numQuestions = questions.length;
 
   // fetch data from API with useEffect() hook
   useEffect(function () {
@@ -45,8 +51,12 @@ export default function App() {
     <div className="app">
       <Header />
       <Main>
-        <p>1/15</p>
-        <p>Question?</p>
+        {/* conditional rendering based on the state.status values received */}
+        {/* test this by throttling to Slow3G in chrome Dev tools Network tab */}
+        {status === "loading" && <Loader />}
+        {/* test by turning off fake API */}
+        {status === "error" && <Error />}
+        {status === "ready" && <StartScreen numQuestions={numQuestions} />}
       </Main>
     </div>
   );
