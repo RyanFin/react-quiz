@@ -1,3 +1,7 @@
 run:
 	npm start
-.PHONY: run
+
+server:
+	npm run server
+	
+.PHONY: run server
