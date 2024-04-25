@@ -1,6 +1,6 @@
 # React-Quiz
 
-- Using the useReducer() hook for the first time.
+- Using the useReducer() hook for the first time. -[useReducer](https://www.youtube.com/watch?v=RZPAQV7JvNU&ab_channel=LamaDev)
 - JSON Viewer chrome extension
 
 ## Extensions
