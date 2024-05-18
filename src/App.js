@@ -13,24 +13,20 @@ import Footer from "./components/Footer";
 import { useQuiz } from "./contexts/QuizContext";
 
 export default function App() {
-  const { questions, status, dispatch } = useQuiz();
-  const numQuestions = questions.length;
-  const maxPossiblePoints = questions.reduce(
-    // reducer to add the current point for the current question in the array to the previous value
-    (prev, curr) => prev + curr.points,
-    // initial value
-    0
-  );
+  const { status, dispatch } = useQuiz();
 
   // fetch data from API with useEffect() hook
-  useEffect(function () {
-    fetch("http://localhost:8000/questions")
-      .then((res) => res.json())
-      .then((data) => {
-        dispatch({ type: "dataReceived", payload: data });
-      })
-      .catch((err) => dispatch({ type: "dataFailed" }));
-  }, []);
+  useEffect(
+    function () {
+      fetch("http://localhost:8000/questions")
+        .then((res) => res.json())
+        .then((data) => {
+          dispatch({ type: "dataReceived", payload: data });
+        })
+        .catch((err) => dispatch({ type: "dataFailed" }));
+    },
+    [dispatch]
+  );
 
   return (
     <div className="app">
@@ -41,25 +37,20 @@ export default function App() {
         {status === "loading" && <Loader />}
         {/* test by turning off fake API */}
         {status === "error" && <Error />}
-        {status === "ready" && <StartScreen numQuestions={numQuestions} />}
+        {status === "ready" && <StartScreen />}
         {status === "active" && (
           <>
-            <Progress
-              numQuestions={numQuestions}
-              maxPossiblePoints={maxPossiblePoints}
-            />
+            <Progress />
             <Question />
             {/* // dispatch an action from within the next button */}
             <Footer>
               <Timer />
-              <NextButton numQuestions={numQuestions} />
+              <NextButton />
             </Footer>
           </>
         )}
 
-        {status === "finished" && (
-          <FinishScreen maxPossiblePoints={maxPossiblePoints} />
-        )}
+        {status === "finished" && <FinishScreen />}
       </Main>
     </div>
   );

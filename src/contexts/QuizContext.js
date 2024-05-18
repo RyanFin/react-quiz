@@ -80,6 +80,15 @@ function QuizProvider({ children }) {
     { questions, status, index, answer, points, highscore, secondsRemaining },
     dispatch,
   ] = useReducer(reducer, initialState);
+
+  //   derived state values
+  const numQuestions = questions.length;
+  const maxPossiblePoints = questions.reduce(
+    // reducer to add the current point for the current question in the array to the previous value
+    (prev, curr) => prev + curr.points,
+    // initial value
+    0
+  );
   return (
     <QuizContext.Provider
       value={{
@@ -90,6 +99,9 @@ function QuizProvider({ children }) {
         points,
         highscore,
         secondsRemaining,
+        // derived state
+        numQuestions,
+        maxPossiblePoints,
         dispatch,
       }}
     >
