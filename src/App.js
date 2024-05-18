@@ -13,16 +13,7 @@ import Footer from "./components/Footer";
 import { useQuiz } from "./contexts/QuizContext";
 
 export default function App() {
-  const {
-    questions,
-    status,
-    index,
-    answer,
-    points,
-    highscore,
-    secondsRemaining,
-    dispatch,
-  } = useQuiz();
+  const { questions, status, dispatch } = useQuiz();
   const numQuestions = questions.length;
   const maxPossiblePoints = questions.reduce(
     // reducer to add the current point for the current question in the array to the previous value
@@ -50,9 +41,7 @@ export default function App() {
         {status === "loading" && <Loader />}
         {/* test by turning off fake API */}
         {status === "error" && <Error />}
-        {status === "ready" && (
-          <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
-        )}
+        {status === "ready" && <StartScreen numQuestions={numQuestions} />}
         {status === "active" && (
           <>
             <Progress
@@ -62,24 +51,14 @@ export default function App() {
             <Question />
             {/* // dispatch an action from within the next button */}
             <Footer>
-              <Timer dispatch={dispatch} secondsRemaining={secondsRemaining} />
-              <NextButton
-                dispatch={dispatch}
-                answer={answer}
-                index={index}
-                numQuestions={numQuestions}
-              />
+              <Timer />
+              <NextButton numQuestions={numQuestions} />
             </Footer>
           </>
         )}
 
         {status === "finished" && (
-          <FinishScreen
-            points={points}
-            maxPossiblePoints={maxPossiblePoints}
-            highscore={highscore}
-            dispatch={dispatch}
-          />
+          <FinishScreen maxPossiblePoints={maxPossiblePoints} />
         )}
       </Main>
     </div>

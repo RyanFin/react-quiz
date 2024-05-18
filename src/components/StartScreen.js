@@ -1,6 +1,10 @@
 // rfc means 'React Functional Component'
+
+import { useQuiz } from "../contexts/QuizContext";
+
 // type in rfc with snippet to immediately launch a new template
-function StartScreen({ numQuestions, dispatch }) {
+function StartScreen({ numQuestions }) {
+  const { dispatch } = useQuiz();
   return (
     <div className="start">
       <h2>Welcome to The React Quiz!</h2>
