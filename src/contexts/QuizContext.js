@@ -89,6 +89,7 @@ function QuizProvider({ children }) {
     // initial value
     0
   );
+
   return (
     <QuizContext.Provider
       value={{
